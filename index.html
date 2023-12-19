@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>김준 프로젝트</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="box">
+      <p id="data">Network detecting...</p>
+    </div>
+    <script>
+      const data = document.querySelector('#data');
+      let interval;
+
+      document.addEventListener('DOMContentLoaded', () => {
+        startInterval();
+      });
+
+      function startInterval() {
+        interval = setInterval(() => {
+          fetch('http://localhost:3000')
+            .then((response) => response.json())
+            .then((json) => {
+              if (json && json.type == 'ddos') {
+                location.replace('success.html');
+                clearInterval(interval);
+              }
+            })
+            .catch((error) => console.log(error));
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>
